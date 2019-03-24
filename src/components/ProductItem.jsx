@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
+import ShoppingCartContext from '../shoppingcart-context';
 
 export default class ProductItem extends Component {
+    addItems = item => {
+        this.setState({ item });
+    };
 
+    state = {
+        items: ['hello', 'ade merci'],
+        addItems: this.addItems()
+    };
     render() {
         return (
             <div>
@@ -9,7 +17,7 @@ export default class ProductItem extends Component {
                 <div className="card-body">
                     <div className="row">
                         <aside className="col-sm-3">
-                            <div className="img-wrap"><img src="images/items/polizei-ente.jpg"/></div>
+                            <div className="img-wrap"><img src={"images/items/"+this.props.product.img}/></div>
                         </aside>
                         <article className="col-sm-6">
                             <h4 className="title">{this.props.product.name}</h4>
@@ -40,10 +48,12 @@ export default class ProductItem extends Component {
                                 <p className="text-success">Free shipping</p>
                                 <br/>
                                 <p>
-                                    <a href="#" className="btn btn-primary"> Buy now </a>
-                                    <a href="#" className="btn btn-secondary"> Details </a>
+                                    <ShoppingCartContext.Consumer>
+                                        {({ items, addItems }) => (
+                                            <button  onClick={() => addItems(this.props.product.name)} className="btn btn-primary">Kaufen</button>
+                                        )}
+                                    </ShoppingCartContext.Consumer>
                                 </p>
-                                <a href="#"><i className="fa fa-heart"></i> Add to wishlist</a>
                             </div>
                         </aside>
                     </div>
